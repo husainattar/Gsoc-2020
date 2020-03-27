@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "$id": "https://ga4gh.com/meta/Ga4gh-vocab",
+  "$recursiveAnchor": true,
+  "$vocabulary": {
+      //Using the built in Core and validation vocabularies used in Schema.
+
+    "https://json-schema.org/draft/2019-09/vocab/core": true,
+    "https://json-schema.org/draft/2019-09/vocab/applicator": true,
+    "https://json-schema.org/draft/2019-09/vocab/validation": true,
+
+    //Using this custom Schema vocabularies so that can be used in our Json-Schema.
+    //And making it true which means that any Json Schema using the vocabularies which are declared within
+    //this meta Schema must match this declaration.
+    //Eg if id keyword declared as string in meta schema must be string in Json-Schema
+
+    "https://ga4gh.com/vocab/Ga4gh-vocab": true
+  },
+  "allOf": [
+      //Built in Meta-Schema to be used
+
+    {"$ref": "https://json-schema.org/draft/2019-09/meta/core"},
+    {"$ref": "https://json-schema.org/draft/2019-09/meta/applicator"},
+    {"$ref": "https://json-schema.org/draft/2019-09/meta/validation"},
+
+    //This is the custom Meta-Schema which will be used to used verfiy itself and
+    //the vocabularies defined within it.
+
+    {"$ref": "https://ga4gh.com/meta/Ga4ghe-vocab"},
+  ],
+  "patternProperties": {
+    "^unevaluated.*$": false
+  },
+  "title": "Example of meta schema for ga4gh"
+  "description":"This is Example Schema where I have choosen the age.json and Biosample.json to construct this Schema."
+  "properties": {
+      "meta": {
+      "$comment": "Not in vocabulary, created just for age.json and biosample.json",
+      "type": "object",
+       "additionalProperties": {
+                "$recursiveRef": "#"
+            }
+    },
+     "contributors": {
+      "$comment": "Not in vocabulary, but validated if used",
+      "type": "array",
+      "items":{
+           { "$recursiveRef": "#" }
+      }
+    },
+     "provenance": {
+      "$comment": "Using ref field so to accomodate that type of fields in the item which specified in ref.",
+      "type": "array",
+      "items":{
+           { "$recursiveRef": "#" }
+      }
+    },
+     "used_by": {
+      "$comment": "Not in vocabulary, but validated if used",
+      "type": "array",
+      "items":{
+           { "$recursiveRef": "#" }
+      }
+    },
+    "$version":{
+     "$comment": "Will be used during Versioning process",
+      "type": "string"
+    }
+    "sb_status": {
+      "$comment": "Not in vocabulary, but validated if used",
+      "type": "string"
+    }
+  }
+}
